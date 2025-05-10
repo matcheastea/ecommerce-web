@@ -1,4 +1,4 @@
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
     <li class="nav-item">
       <a class="nav-link" href="index.html">
@@ -15,10 +15,10 @@
       </a>
       <div class="collapse" id="form-elements">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Add Category</a></li>          
+          <li class="nav-item"><a class="nav-link" href="{{ url('admin/category/create') }}">Add Category</a></li>          
         </ul>
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">View Category</a></li>          
+          <li class="nav-item"><a class="nav-link" href="{{ url('admin/category/index') }}">View Category</a></li>          
         </ul>
       </div>
     </li>    
@@ -31,9 +31,9 @@
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">          
           <li class="nav-item"> <a class="nav-link" href="{{ url('admin/products/create')}}">Add Product</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ url('admin/products')}}">View Product</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ url('admin/products/index')}}">View Product</a></li>
       </div>
-    </li>    
+    </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
         <i class="mdi mdi-chart-pie menu-icon"></i>
@@ -58,3 +58,4 @@
           </li>
         </ul>
       </div>
+</nav>

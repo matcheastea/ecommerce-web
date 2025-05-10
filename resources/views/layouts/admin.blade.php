@@ -26,12 +26,12 @@
 
       <div class="container-fluid page-body-wrapper">
         @include('layouts.inc.admin.sidebar')
-      </div>  
-      <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="main-panel">
+          <div class="content-wrapper">
             @yield('content')
           </div>
         </div>
+      </div>  
     </div>
   <script src="{{ asset('admin/vendors/js/vendor.bundle.base.js')}}"></script>
 

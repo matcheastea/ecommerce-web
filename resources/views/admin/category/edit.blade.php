@@ -45,9 +45,11 @@
                         @enderror
                 </div>
                 <div class="col-md-12 mb-3">
-                    <button type="btn btn-primary float-end">Update</button>
+                    <button type="btn btn-primary float-end" >Update</button>
                 </div> 
             </form>
         </div>
     </div>
 </div>
+
+@endsection

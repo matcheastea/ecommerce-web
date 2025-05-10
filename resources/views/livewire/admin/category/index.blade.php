@@ -46,12 +46,12 @@
                     <tbody>
                         @foreach($categories as $item)
                         <tr>
-                            <td>{{$category->id}}</td>
-                            <td>{{$category->name}}</td>
-                            <td>{{$category->status == '1' ? 'Hidden':'Visible' }}</td>
+                            <td>{{$item->id}}</td>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->status == '1' ? 'Hidden':'Visible' }}</td>
                             <td>
-                                <a href="{{ url ('admin/category/'.$category->id.'/edit') }}" class="btn btn-success">Edit</a>
-                                <a href="#" wire:click="deleteCategory({{$category->id}})" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</a>
+                                <a href="{{ url ('admin/category/'.$item->id.'/edit') }}" class="btn btn-success">Edit</a>
+                                <a href="#" wire:click="deleteCategory({{$item->id}})" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                         @endforeach

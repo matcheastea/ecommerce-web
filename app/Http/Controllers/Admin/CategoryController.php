@@ -12,7 +12,8 @@ use App\Http\Requests\CategoryFormRequest;
 class CategoryController extends Controller
 {
     public function index(){
-        return view('admin.category.index');
+        $categories = Category::all();
+        return view('admin.category.index', compact('categories'));
     }
 
     public function create(){
@@ -34,16 +35,16 @@ class CategoryController extends Controller
 
             $category->image = $filename;
         }
-
+ 
         $category->image = $validatedData['image'];
         $category->status = $request->status == true ?'1':'0';
 
         $category->save();
-        return redirect()->with('message','Category Added Successfully');
+        return redirect()->route('admin.category.index')->with('message','Category Added Successfully');
     }
 
     public function edit(Category $category){
-        return view('admin.category.edit', compact('category'));
+        return view('/admin/category/edit', compact('category'));
     }
 
     public function update(CategoryFormRequest $request, $category){
@@ -70,8 +71,19 @@ class CategoryController extends Controller
         $category->status = $request->status == true ?'1':'0';
 
         $category->update();
-        return redirect()->with('message','Category Updated Successfully');
+        return redirect()->route('admin.category.index')>with('message','Category Updated Successfully');
     }
 
-    
+    public function destroy($id){
+        $category = Category::findOrFail($id);
+
+        $path = 'uploads/category/'.$category->image;
+        if(File::exists($path)){
+            File::delete($path);
+        }
+
+        $category->delete();
+
+        return redirect()->route('admin.category.index')->with('message', 'Category Deleted Successfully');
+    }
 }

@@ -14,21 +14,25 @@ protected $paginationTheme = 'bootstrap';
 
     public $category_id;
 
-    public function deleteCategory($category_id){
-        dd($category_id);
-        $this->category_id = $category_id;
+    public function deleteCategory($id){
+        $this->category_id = $id;
     }
 
     public function destroyCategory(){
-        $category = Category::find($this->category_id);
-        $path = 'uploads/category/'.$category->immage;
+        $category = Category::findOrFail($this->category_id);
+
+        $path = 'uploads/category/'.$category->image;
         if(File::exists($path)){
             File::delete($path);
 
         }
         $category->delete();
-        session()->flash('message','Category Deleted');
+
+        $this->category_id = null;
+        
         $this->dispatchBrowserEvent('close-modadl');
+        
+        session()->flash('message','Category Deleted');
     }
 
     public function render()
