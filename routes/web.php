@@ -29,6 +29,7 @@ use App\Models\Category;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index']);
+Route::get('/collections', [\App\Http\Controllers\Frontend\FrontendController::class, 'categories']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

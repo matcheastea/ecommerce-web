@@ -26,6 +26,13 @@
                         <textarea name="description" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="col-md-12 mb-3">
+                        <label>Image</label>
+                        <input type="file" name="image" class="form-control">
+                        @error('image')
+                        <small class="text-danger">{{$message}}</small>
+                        @enderror
+                    </div>
+                    <div class="col-md-12 mb-3">
                         <label>Status</label><br>
                         <input type="checkbox" name="status">
                     </div>

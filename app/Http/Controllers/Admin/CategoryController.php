@@ -20,28 +20,29 @@ class CategoryController extends Controller
         return view('admin.category.create');
     }
     public function store(CategoryFormRequest $request){
-        $validatedData = $request->validated();
+    $validatedData = $request->validated();
 
-        $category = new Category;
-        $category->name = $validatedData['name'];
-        $category->description = $validatedData['description'];
+    $category = new Category;
+    $category->name = $validatedData['name'];
+    $category->description = $validatedData['description'];
 
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $ext = $file->getClientOriginalExtension();
-            $filename = time().'.'.$ext;
+    $uploadPath = 'uploads/category/';
+    if($request->hasFile('image')){
+        $file = $request->file('image');
+        $ext = $file->getClientOriginalExtension();
+        $filename = time().'.'.$ext;
 
-            $file->move('uploads/category/', $filename);
+        $file->move($uploadPath, $filename);
 
-            $category->image = $filename;
-        }
- 
-        $category->image = $validatedData['image'];
-        $category->status = $request->status == true ?'1':'0';
-
-        $category->save();
-        return redirect()->route('admin.category.index')->with('message','Category Added Successfully');
+        $category->image = $uploadPath.$filename;
     }
+
+    $category->status = $request->status == true ? '1' : '0';
+
+    $category->save();
+    return redirect()->route('admin.category.index')->with('message','Category Added Successfully');
+}
+
 
     public function edit(Category $category){
         return view('/admin/category/edit', compact('category'));
@@ -49,12 +50,13 @@ class CategoryController extends Controller
 
     public function update(CategoryFormRequest $request, $category){
         $validatedData = $request->validated();
-        
+
         $category = Category::findOrFail($category);
 
         $category->name = $validatedData['name'];
         $category->description = $validatedData['description'];
 
+        $uploadPath = 'uploads/category/';
         if($request->hasFile('image')){
             $path = 'uploads/category/'.$category->image;
             if(File::exists($path)){
@@ -65,7 +67,7 @@ class CategoryController extends Controller
             $filename = time().'.'.$ext;
 
             $file->move('uploads/category/'.$filename);
-            $category->image = $filename;
+            $category->image ='$uploadPath'. $filename;
         }
 
         $category->status = $request->status == true ?'1':'0';
