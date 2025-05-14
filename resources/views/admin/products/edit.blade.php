@@ -15,13 +15,15 @@
             @if(session('message'))
               <h5 class="alert alert-success mb-2">{{ session('message')}}</h5>
             @endif
-            @if ($errors->any())
-            <div class="alert alert-warning">
-              @foreach ($errors->all() as $error)
-              <div>{{$error}}</div>
-            </div>
 
-              <form action="{{ url ('admin/products'.$product->id)}}" method="POST" enctype="multipart/form-data">
+            @if ($errors->any())
+              <div class="alert alert-warning">
+                @foreach ($errors->all() as $error)
+                <div>{{$error}}</div>
+              </div>
+                @endforeach
+            @endif
+              <form action="{{ url ('admin/products/'.$product->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -74,7 +76,7 @@
   </div>
   @if($product->productImages)
   <div class="row">
-    foreach($product->productImages as $image)
+    @foreach($product->productImages as $image)
     <div class="col-md-2">
       <img src="{{ asset('$image->image')}}" style="width:  80px; height:80px;" class="me-4" alt="Img">
       <a href="{{ url('admin/product-image/'.$image->id.'/delete') }}" class="d-block">Remove</a>

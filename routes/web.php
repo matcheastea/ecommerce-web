@@ -1,15 +1,16 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Livewire\Admin\Brand\Index;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
-use App\Models\Category;
+use App\Http\Livewire\Frontend\Product\View as ProductView;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +31,12 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index']);
 Route::get('/collections', [\App\Http\Controllers\Frontend\FrontendController::class, 'categories']);
+Route::get('collections/{category_id}',[\App\Http\Controllers\Frontend\FrontendController::class, 'products']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+//admin route
 Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function (){
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
 
@@ -42,20 +46,23 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function (){
         Route::get('/category/create', [CategoryController::class, 'create']);
         Route::post('/category', [CategoryController::class,'store']);
         Route::get('/category/{category}/edit',[CategoryController::class, 'edit']);
-        Route::put('/category/{category}',[CategoryController::class, 'update']);
+        Route::put('/category/{category},', [CategoryController::class, 'update'])->name('admin.category.update');
         Route::delete('/category/{category}', [CategoryController::class, 'destroy']);    
     });
 
     // product route
-    Route::controller(App\Http\Controllers\Admin\ProductController::class)->group(function(){
-        Route::get('/products/index', [ProductController::class, 'index'])->name('admin.products.index');
-        Route::get('/products/create', [ProductController::class, 'create'])->name('admin.products.create');
-        Route::post('/products', [ProductController::class, 'store']);
-        Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
-        Route::put('/products/{product}', 'update')->name('admin.products.update');
-        Route::get('products/{$product_id}/delete','destroy')->name('admin.products.delete');
-        Route::get('product-image/{product_image_id}/delete','destroyImage')->name('admin.products.image.delete');
+    
+    Route::prefix('products')->name('admin.products.')->group(function(){
+        Route::get('/', [ProductController::class, 'index'])->name('admin.products.index');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::get('/product/{product}/edit', [ProductController::class, 'edit'])->name('edit');
+        Route::put('{product}',[ProductController::class, 'update']);
+        Route::get('{product}/delete', [ProductController::class, 'destroy'])->name('delete');
     });
+
+    Route::get('/product-image/{product_image_id}/delete', [ProductController::class, 'destroyImage'])->name('admin.products.image.delete');
+
     Route::get('/brands', App\Http\Livewire\Admin\Brand\Index::class);
 });
 

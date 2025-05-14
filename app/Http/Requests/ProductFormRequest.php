@@ -30,7 +30,7 @@ class ProductFormRequest extends FormRequest
             ],
             'name' => [
                 'required',
-                'integer'
+                'string',
             ],
             'description' => [
                 'required',
@@ -45,12 +45,13 @@ class ProductFormRequest extends FormRequest
                 'integer',
             ],
             'status' => [
-                'required',
-                'integer'
-            ],
-            'image' => [
                 'nullable',
-                // 'image|mimes:jpeg,png,jpg'
+                'boolean',
+            ],
+            'image.*' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg'
             ],
         ];
     }

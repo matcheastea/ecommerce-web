@@ -48,10 +48,10 @@ class CategoryController extends Controller
         return view('/admin/category/edit', compact('category'));
     }
 
-    public function update(CategoryFormRequest $request, $category){
+    public function update(CategoryFormRequest $request, Category $category){
         $validatedData = $request->validated();
 
-        $category = Category::findOrFail($category);
+        // $category = Category::findOrFail($category);
 
         $category->name = $validatedData['name'];
         $category->description = $validatedData['description'];
@@ -66,14 +66,14 @@ class CategoryController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = time().'.'.$ext;
 
-            $file->move('uploads/category/'.$filename);
-            $category->image ='$uploadPath'. $filename;
+            $file->move($uploadPath, $filename);
+            $category->image = $uploadPath. $filename;
         }
 
         $category->status = $request->status == true ?'1':'0';
 
         $category->update();
-        return redirect()->route('admin.category.index')>with('message','Category Updated Successfully');
+        return redirect()->route('admin.category.index')->with('message','Category Updated Successfully');
     }
 
     public function destroy($id){

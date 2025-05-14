@@ -2,13 +2,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 
-<div class="main-navbar shadow-sm sticky-top bg-orange">
+<div class="main-navbar shadow-sm sticky-top bg-or ange">
     <div class="top-navbar py-2">
         <div class="container-fluid">
             <div class="row align-items-center">
                 <!-- Brand -->
                 <div class="col-md-3 d-none d-md-block">
-                    <h5 class="brand-name text-white m-0">Fataste</h5>
+                    <div class="logo-brand">
+                        <img src="{{asset('asset/img/logo.png')}}" class="logo-img">
+                        <h5 class="brand-name text-white m-0">Fataste</h5>
+                    </div>
                 </div>
 
                 <!-- Search -->

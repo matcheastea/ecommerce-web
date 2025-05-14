@@ -33,7 +33,7 @@ class ProductController extends Controller
             'description' => $validatedData['description'],
             'price' => $validatedData['price'],
             'quantity' => $validatedData['quantity'],
-            'status' => $validatedData['status'] == true ?'1':'0',
+            'status' => $request['status'] == true ?'1':'0',
         ]);
 
         if($request->hasFile('image')){
@@ -66,6 +66,7 @@ class ProductController extends Controller
 
     public function update(ProductFormRequest $request, int $product_id){
         $validatedData = $request->validated();
+
         $product = Category::findOrFail($validatedData['category_id'])
                 ->products()->where('id', $product_id)->first();
                 if($product){
@@ -75,7 +76,8 @@ class ProductController extends Controller
                             'description' => $validatedData['description'],
                             'price' => $validatedData['price'],
                             'quantity' => $validatedData['quantity'],
-                            'status' => $validatedData['status'] == true ?'1':'0',        
+                            'status' => $request->has('status') ? '1' : '0',
+
                     ]);
                     if($request->hasFile('image')){
                         $uploadPath = 'uploads/products/';
@@ -119,6 +121,6 @@ class ProductController extends Controller
             }
         }
         $product->delete();
-        return redirect()->back()->with('message', 'Product Image Deleted');
+        return redirect()->back()->with('message', 'Product Deleted Succesfully');
     }
 }

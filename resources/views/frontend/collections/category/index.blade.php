@@ -16,7 +16,7 @@
             @forelse($categories as $categoryItem)
                 <div class="col-6 col-md-3">
                     <div class="category-card">
-                        <a href="{{ url('collections/'.$categoryItem->slug) }}">
+                        <a href="{{ url('collections/'.$categoryItem->id) }}">
                             <div class="category-card-img">
                                 <img src="{{ url('uploads/category/'.$categoryItem->image) }}" class="w-100" alt="{{ $categoryItem->name }}">
                             </div>
