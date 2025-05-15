@@ -123,27 +123,39 @@
           </a>
         </div>
       </li>
-      <li class="nav-item nav-profile dropdown">
+      @guest
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('login') }}">
+            <i class="mdi mdi-login text-white"></i> Login
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('register') }}">
+            <i class="mdi mdi-account-plus text-white"></i> Register
+        </a>
+    </li>
+@else
+    <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-          <img src="../../../assets/images/faces/face5.jpg" alt="profile" />
-          <span class="nav-profile-name">{{ Auth::user()->name }}</span>
+            <img src="../../../assets/images/faces/face5.jpg" alt="profile" />
+            <span class="nav-profile-name">{{ Auth::user()->name }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-          <a class="dropdown-item">
-            <i class="mdi mdi-cog text-primary"></i>
-            Settings
-          </a>
-          <a class="dropdown-item" href="{{ route('logout') }}"
-              onclick="event.preventDefault();
-                  document.getElementById('logout-form').submit();">
-              <i class="mdi mdi-logout text-primary"></i>{{ __('Logout') }}
-          </a>
+            <a class="dropdown-item" href="#">
+                <i class="mdi mdi-cog text-primary"></i> Settings
+            </a>
+            <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="mdi mdi-logout text-primary"></i> Logout
+            </a>
 
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-              @csrf
-          </form>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </div>
-      </li>
+    </li>
+@endguest
+
       <li class="nav-item nav-settings d-none d-lg-flex">
         <a class="nav-link" href="#">
           <i class="mdi mdi-apps"></i>

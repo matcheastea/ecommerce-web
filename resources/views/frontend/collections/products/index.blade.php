@@ -35,8 +35,8 @@
                         </div>
                         <div class="product-card-body">
                             <h5 class="product-name">
-                               <a href="{{ url('collections/'.$productItem->category->id.'/'.$productItem->name)}}">
-                                    {{ $productItem->name}} 
+                                <a href="{{ url('collections/'.$productItem->category->id.'/'.$productItem->id)}}">
+                                     {{ $productItem->name}} 
                                </a>
                             </h5>
                             <div>

@@ -29,23 +29,23 @@ class FrontendController extends Controller
         }   
     }
 
-    public function productView(string $category_id, string $product_id){
+   public function productView(string $category_id, string $product_id){
         $category = Category::findOrFail($category_id);
 
-        $product = Product::where('category_id', $category->id)->where('id', $product_id)->where('status', '0')->firstOrFail();
-
         if($category){
-            $product = $category->products->where('id', $product_id)->where('status', '0')->firstOrFail();
+
+            $product = $category->products()->where('id', $product_id )->where('status', '0')->first();
             if($product){
-                return view('frontend.collections.product.view', compact('product','category'));
+                return view('frontend.collections.products.view', compact('product','category'));
             }else{
             return redirect()->back();
-        }
-
-    }else{
-        return redirect()->back();
         }   
-     }
+
+            }else{
+                return redirect()->back();
+            }
+                
+        }
 }
 
 

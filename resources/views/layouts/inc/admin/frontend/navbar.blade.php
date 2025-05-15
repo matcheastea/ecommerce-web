@@ -29,19 +29,41 @@
                 <!-- Cart / Wishlist / User -->
                 <div class="col-md-3">
                     <ul class="nav justify-content-end align-items-center gap-2">
-                    
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fa fa-user"></i> Username
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-list"></i> My Orders</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-heart"></i> My Wishlist</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-                            </ul>
-                        </li>
+                        @guest
+    <li class="nav-item">
+        <a class="nav-link text-white" href="{{ route('login') }}">
+            <i class="fa fa-sign-in"></i> Login
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="{{ route('register') }}">
+            <i class="fa fa-user-plus"></i> Register
+        </a>
+    </li>
+@else
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            <i class="fa fa-user"></i> {{ Auth::user()->name }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fa fa-list"></i> My Orders</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fa fa-heart"></i> My Wishlist</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
+            <li>
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                   <i class="fa fa-sign-out"></i> Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li>
+        </ul>
+    </li>
+@endguest
+
+                        
                     </ul>
                 </div>
             </div>
