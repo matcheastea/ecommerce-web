@@ -23,6 +23,8 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+
+    @livewireStyles
 </head>
 <body>
     <div id="app">
@@ -34,7 +36,16 @@
     </div>
 <script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script>
+    window.addEventListener('message', event => {
+        alert(event.detail.text);
+    });
+</script>
 
 @livewireScripts
+ <!-- window.addEventListener('message', event => {
+        alert(event.detail.text);
+        // Bisa kamu ganti pakai toastr, sweetalert, dsb.
+    }); -->
 </body>
 </html>
