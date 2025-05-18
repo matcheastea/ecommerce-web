@@ -90,13 +90,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
-                                <i class="fa fa-shopping-cart"></i> Cart (0)
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">
-                                <i class="fa fa-heart"></i> Wishlist (0)
+                        <a class="nav-link text-white" href="{{ url('cart') }}">
+                                <i class="fa fa-shopping-cart"></i> 
+                                Cart (<livewire:frontend.cart.cart-count/>)
                             </a>
                         </li>
                 </ul>
