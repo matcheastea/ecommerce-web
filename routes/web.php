@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Livewire\Admin\Brand\Index;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -33,6 +34,7 @@ Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index
 Route::get('/collections', [\App\Http\Controllers\Frontend\FrontendController::class, 'categories']);
 Route::get('collections/{category_id}',[\App\Http\Controllers\Frontend\FrontendController::class, 'products']);
 Route::get('collections/{category_id}/{product_id}',[\App\Http\Controllers\Frontend\FrontendController::class, 'productView']);
+Route::get('/checkout/preview', [CheckoutController::class, 'preview'])->name('checkout.preview');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('cart', [App\Http\Controllers\Frontend\CartController::class, 'index']);

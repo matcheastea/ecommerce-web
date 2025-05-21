@@ -13,7 +13,7 @@
 
                         <div class="cart-header d-none d-sm-none d-mb-block d-lg-block">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <h4>Products</h4>
                                 </div>
                                 <div class="col-md-2">
@@ -23,6 +23,9 @@
                                     <h4>Quantity</h4>
                                 </div>
                                 <div class="col-md-2">
+                                    <h4>Total</h4>
+                                </div>
+                                <div class="col-md-1">
                                     <h4>Remove</h4>
                                 </div>
                             </div>
@@ -33,7 +36,7 @@
                         @if($cartItem->product)
                         <div class="cart-item">
                             <div class="row">
-                                <div class="col-md-6 my-auto">
+                                <div class="col-md-5 my-auto">
                                     <a href="{{ url('collection/'.$cartItem->product->category->id.'/'.$cartItem->product->id)}}">
                                         <label class="product-name">
                                             @if($cartItem->product->productImages)
@@ -48,23 +51,29 @@
                                     </a>
                                 </div>
                                 <div class="col-md-2 my-auto">
-                                    <label class="price">{{$cartItem->product->price}}</label>
+                                    <label class="price">Rp {{$cartItem->product->price}}</label>
+                                    @php $totalPrice += $cartItem->product->price*$cartItem->quantity @endphp
                                 </div>
                                 <div class="col-md-2 col-7 my-auto">
                                     <div class="quantity">
                                         <div class="input-group">
-                                            <span class="btn btn1"><i class="fa fa-minus"></i></span>
+                                            <button type="button" wire:loading.attr="disabled" wire:click="decrementQuantity({{$cartItem->id}})" class="btn btn1"><i class="fa fa-minus"></i></button>
                                             <input type="text" value="{{ $cartItem->quantity}}" class="input-quantity" />
-                                            <span class="btn btn1"><i class="fa fa-plus"></i></span>
+                                            <button type="button" wire:loading.attr="dissable" wire:click="incrementQuantity({{$cartItem->id}})" class="btn btn1"><i class="fa fa-plus"></i></button>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-2 my-auto">
+                                    <label class="total">Rp {{$cartItem->product->price * $cartItem->quantity}}</label>
+                                </div>
 
-                                <div class="col-md-2 col-5 my-auto">
+                                <div class="col-md-1 col-5 my-auto">
                                     <div class="remove">
-                                        <a href="" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i> Remove
-                                        </a>
+                                        <button type="button" wire:loading.attr="disabled" wire:click="removeCartItem({{ $cartItem->id }})"class="btn btn-danger btn-sm">
+                                            <span wire:loading.remove wire:target="removeCartItem({{ $cartItem->id }})">
+                                                <i class="fa fa-trash"></i> Remove
+                                            </span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -72,12 +81,35 @@
                         @endif
                         @empty
                             <div>No Cart Item</div>
-                        @endforelse
-                                
+                        @endforelse           
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-8 my-md-auto mt-3">
+                    <h4>
+                        Get the best deals & offfers <a href="{{url('/collections')}}">shop now</a>
+                    </h4>
+                </div>
+                <div class="col-md-4 mt-3">
+                    <div class="shadow-sm bg-white p-3">
+                        <h4>Total:
+                            <span class="float-end">Rp {{ $totalPrice }}</span>
+                        </h4>
+                        <hr>
+                       <button wire:click="checkout" class="btn btn-warning mt-3 float-end">Checkout</button>
+                     @if($qrUrl)
+                        <div class="text-center mt-4">
+                            <h5>Scan QR Order</h5>
+                            <img src="{{ $qrUrl }}" alt="QR Code" class="border rounded p-2">
+                            <p class="text-danger">Show this QR code to canteen staff</p>
+                        </div>
+                    @endif
 
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
