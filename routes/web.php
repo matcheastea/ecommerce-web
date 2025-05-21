@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Livewire\Admin\Brand\Index;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -34,7 +35,7 @@ Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index
 Route::get('/collections', [\App\Http\Controllers\Frontend\FrontendController::class, 'categories']);
 Route::get('collections/{category_id}',[\App\Http\Controllers\Frontend\FrontendController::class, 'products']);
 Route::get('collections/{category_id}/{product_id}',[\App\Http\Controllers\Frontend\FrontendController::class, 'productView']);
-Route::get('/checkout/preview', [CheckoutController::class, 'preview'])->name('checkout.preview');
+Route::get('/checkout/preview/{order_id}', [CheckoutController::class, 'preview'])->name('checkout.preview');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('cart', [App\Http\Controllers\Frontend\CartController::class, 'index']);
@@ -71,6 +72,10 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function (){
     Route::get('/product-image/{product_image_id}/delete', [ProductController::class, 'destroyImage'])->name('admin.products.image.delete');
 
     Route::get('/brands', App\Http\Livewire\Admin\Brand\Index::class);
+
+    //orders
+    
+
 });
 
 

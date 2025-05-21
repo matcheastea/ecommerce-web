@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Frontend\Cart;
 
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderItem;
 use Livewire\Component;
 
 class CartShow extends Component
@@ -13,9 +15,51 @@ class CartShow extends Component
     public $qrUrl;
 
 
-    public function checkout(){
-        return redirect()->route('checkout.preview');
+public function checkout()
+{
+    $user = auth()->user();
+    $cartItems = Cart::where('user_id', $user->id)->get();
+
+    if ($cartItems->isEmpty()) {
+        $this->dispatchBrowserEvent('message', [
+            'text' => 'Keranjang kosong',
+            'type' => 'error',
+            'status' => 400
+        ]);
+        return;
     }
+
+    // Hitung total
+    $total = 0;
+    foreach ($cartItems as $item) {
+        $total += $item->product->price * $item->quantity;
+    }
+
+    // Buat order
+    $barcode = 'USER-' . $user->id . '-' . now()->timestamp;
+    $order = Order::create([
+        'user_id' => $user->id,
+        'barcode' => $barcode,
+        'total_price' => $total,
+    ]);
+
+    // Simpan item
+    foreach ($cartItems as $item) {
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $item->product_id,
+            'quantity' => $item->quantity,
+            'price' => $item->product->price,
+        ]);
+    }
+
+    // Hapus isi keranjang
+    Cart::where('user_id', $user->id)->delete();
+
+    // Redirect ke halaman preview barcode
+    return redirect()->route('checkout.preview', ['order_id' => $order->id]);
+}
+
 
     public function decrementQuantity(int $cartId){
         $cartData = Cart::where('id', $cartId)->where('user_id', auth()->user()->id)->first();
