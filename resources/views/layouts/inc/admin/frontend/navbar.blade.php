@@ -5,25 +5,13 @@
 <div class="main-navbar shadow-sm sticky-top bg-or ange">
     <div class="top-navbar py-2">
         <div class="container-fluid">
-            <div class="row align-items-center">
+            <div class="row align-items-center justify-content-between">
                 <!-- Brand -->
                 <div class="col-md-3 d-none d-md-block">
                     <div class="logo-brand">
                         <img src="{{asset('asset/img/logo.png')}}" class="logo-img">
                         <h5 class="brand-name text-white m-0">Fataste</h5>
                     </div>
-                </div>
-
-                <!-- Search -->
-                <div class="col-md-6">
-                    <form role="search">
-                        <div class="input-group">
-                            <input type="search" class="form-control" placeholder="Search your product">
-                            <button class="btn btn-light" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
                 </div>
 
                 <!-- Cart / Wishlist / User -->

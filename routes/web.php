@@ -35,7 +35,7 @@ Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index
 Route::get('/collections', [\App\Http\Controllers\Frontend\FrontendController::class, 'categories']);
 Route::get('collections/{category_id}',[\App\Http\Controllers\Frontend\FrontendController::class, 'products']);
 Route::get('collections/{category_id}/{product_id}',[\App\Http\Controllers\Frontend\FrontendController::class, 'productView']);
-Route::get('/checkout/preview/{order_id}', [CheckoutController::class, 'preview'])->name('checkout.preview');
+Route::get('/checkout/preview/', [CheckoutController::class, 'preview'])->name('checkout.preview');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('cart', [App\Http\Controllers\Frontend\CartController::class, 'index']);

@@ -2,64 +2,44 @@
 
 namespace App\Http\Livewire\Frontend\Cart;
 
+use Carbon\Carbon;
 use App\Models\Cart;
-use App\Models\Order;
-use App\Models\OrderItem;
+use Illuminate\Support\Str;
 use Livewire\Component;
+use App\Models\Transaction;
 
 class CartShow extends Component
 {
     public $cart, $totalPrice = 0;
-    public $qrContent = null;
-    public $showQr = false;
     public $qrUrl;
 
+    public function checkout(){
 
-public function checkout()
-{
-    $user = auth()->user();
-    $cartItems = Cart::where('user_id', $user->id)->get();
+         $orderId = Str::uuid(); // ID unik, bisa diganti dengan sistem lain
+         $username = auth()->user()->name;
 
-    if ($cartItems->isEmpty()) {
-        $this->dispatchBrowserEvent('message', [
-            'text' => 'Keranjang kosong',
-            'type' => 'error',
-            'status' => 400
-        ]);
-        return;
-    }
+         $cartItems = Cart::with('product.category')
+         ->where('user_id', auth()->id())
+         ->get();
 
-    // Hitung total
-    $total = 0;
     foreach ($cartItems as $item) {
-        $total += $item->product->price * $item->quantity;
-    }
-
-    // Buat order
-    $barcode = 'USER-' . $user->id . '-' . now()->timestamp;
-    $order = Order::create([
-        'user_id' => $user->id,
-        'barcode' => $barcode,
-        'total_price' => $total,
-    ]);
-
-    // Simpan item
-    foreach ($cartItems as $item) {
-        OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $item->product_id,
-            'quantity' => $item->quantity,
-            'price' => $item->product->price,
+        $product = $item->product;
+        $quantity = $item->quantity;
+        $price = $product->price;
+        $totalPrice = $price * $quantity;
+        Transaction::create([
+            'order_id' => $orderId,
+            'username' => $username,
+            'product_name' => $item->product->name,
+            'product_category' => $item->product->category_id,
+            'quantity' => $quantity,
+            'total' => $totalPrice,
+            'transaction_datetime' => Carbon::now(),
         ]);
     }
 
-    // Hapus isi keranjang
-    Cart::where('user_id', $user->id)->delete();
-
-    // Redirect ke halaman preview barcode
-    return redirect()->route('checkout.preview', ['order_id' => $order->id]);
-}
-
+        return redirect()->route('checkout.preview');
+    }
 
     public function decrementQuantity(int $cartId){
         $cartData = Cart::where('id', $cartId)->where('user_id', auth()->user()->id)->first();
